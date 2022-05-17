@@ -6,7 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from recipes.models import Favorite, Ingredient, Recipe, Shopping_Cart, Tag
+from recipes.models import Favorite, Ingredient, Recipe, ShoppingCart, Tag
 
 from .filters import IngredientSearchFilter, RecipeFilter
 from .pagination import LimitPageNumberPagination
@@ -27,7 +27,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         detail=False,
         permission_classes=(IsAuthenticated,))
     def download_shopping_cart(self, request):
-        ingredients = Shopping_Cart.objects.filter(
+        ingredients = ShoppingCart.objects.filter(
             user=request.user
         ).values(
             'recipe__ingredients__name',
@@ -90,32 +90,32 @@ class FavoriteViewSet(mixins.CreateModelMixin,
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class Shopping_CartViewSet(viewsets.ModelViewSet):
+class ShoppingCartViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeFollowSerializer
     permission_classes = (IsAuthenticated,)
 
     def create(self, request, recipe_id):
         recipe = get_object_or_404(Recipe, pk=recipe_id)
-        if Shopping_Cart.objects.filter(
+        if ShoppingCart.objects.filter(
             user=request.user, recipe=recipe
         ).exists():
             return Response(
                 data={'detail': 'Вы уже добавили этот рецепт!'},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        Shopping_Cart.objects.create(user=request.user, recipe=recipe)
+        ShoppingCart.objects.create(user=request.user, recipe=recipe)
         serializer = self.get_serializer(recipe)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def delete(self, request, recipe_id):
         user = request.user
         recipe = get_object_or_404(Recipe, pk=recipe_id)
-        if not Shopping_Cart.objects.filter(user=user, recipe=recipe).exists():
+        if not ShoppingCart.objects.filter(user=user, recipe=recipe).exists():
             return Response(
                 data={'detail': 'Вы ещё не добавили этот рецепт!'},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        cart = Shopping_Cart.objects.filter(user=user, recipe=recipe)
+        cart = ShoppingCart.objects.filter(user=user, recipe=recipe)
         cart.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

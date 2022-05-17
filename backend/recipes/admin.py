@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
-                            Shopping_Cart, Subscribe, Tag, User)
+                            ShoppingCart, Subscribe, Tag, User)
 
 admin.site.unregister(User)
 admin.site.empty_value_display = '--Пусто--'
@@ -58,6 +58,6 @@ class FavoriteAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'recipe')
 
 
-@admin.register(Shopping_Cart)
-class Shopping_CartAdmin(admin.ModelAdmin):
+@admin.register(ShoppingCart)
+class ShoppingCartAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'recipe')

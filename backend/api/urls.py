@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from users.views import UserViewSet
 
 from .views import (FavoriteViewSet, IngredientViewSet, RecipeViewSet,
-                    Shopping_CartViewSet, TagViewSet)
+                    ShoppingCartViewSet, TagViewSet)
 
 router_v1 = DefaultRouter()
 router_v1.register('users', UserViewSet)
@@ -18,7 +18,7 @@ router_v1.register(
 )
 router_v1.register(
     r'^recipes/(?P<recipe_id>\d+)/shopping_cart',
-    Shopping_CartViewSet,
+    ShoppingCartViewSet,
     basename='shopping_cart'
 )
 

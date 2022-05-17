@@ -147,7 +147,7 @@ class Favorite(models.Model):
         return f'{self.user} - {self.recipe}'
 
 
-class Shopping_Cart(models.Model):
+class ShoppingCart(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
