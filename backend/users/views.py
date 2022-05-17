@@ -1,12 +1,11 @@
+from api.pagination import LimitPageNumberPagination
+from api.serializers import FavoriteSerializer
 from django.shortcuts import get_object_or_404
+from recipes.models import Subscribe, User
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
-from api.pagination import LimitPageNumberPagination
-from api.serializers import FavoriteSerializer
-from recipes.models import Subscribe, User
 from users.serializers import PasswordSerializer, UserSerializer
 
 

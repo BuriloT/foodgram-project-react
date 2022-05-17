@@ -1,7 +1,6 @@
 from django.forms import ValidationError
-from rest_framework import serializers
-
 from recipes.models import Subscribe, User
+from rest_framework import serializers
 
 
 class UserSerializer(serializers.ModelSerializer):
